@@ -6,7 +6,7 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "DEVKITPRO is not set. Please install devkitPro.")
 endif
 
-include $(DEVKITPRO)/3ds_rules
+include $(DEVKITPRO)/libctru/3ds_rules
 
 TARGET      := KirbyDanceParty
 BUILD       := build
