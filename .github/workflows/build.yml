@@ -1,0 +1,30 @@
+name: Build Nintendo 3DS homebrew
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up devkitPro
+        uses: devkitPro/setup-devkitpro@v1
+        with:
+          update: true
+          install: 3ds-dev
+
+      - name: Build
+        run: make
+
+      - name: Upload 3DSX
+        uses: actions/upload-artifact@v4
+        with:
+          name: KirbyDanceParty-3dsx
+          path: KirbyDanceParty.3dsx
