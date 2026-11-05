@@ -23,7 +23,7 @@ ASFLAGS     := -g $(ARCH)
 LDFLAGS     := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(TARGET).map
 
 LIBS        := -lcitro3d -lctru -lm
-LIBDIRS     := $(LIBGCC)
+LIBDIRS     := $(LIBCTRU) $(PORTLIBS)
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 export OUTPUT  := $(CURDIR)/$(TARGET)
