@@ -89,7 +89,6 @@ void runPrototype() {
     bool finished = false;
     bool judgedCurrentBeat = false;
     u64 phaseStart = osGetTime();
-    u64 nextCallAt = phaseStart;
     char lastJudgement[24] = "READY";
     char status[64] = "Get ready...";
 
