@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,13 +17,15 @@ jobs:
       image: devkitpro/devkitarm:latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build
         run: make -j$(nproc)
 
       - name: Upload 3DSX
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: KirbyDanceParty-3dsx
           path: KirbyDanceParty.3dsx
+          if-no-files-found: error
+          retention-days: 7
