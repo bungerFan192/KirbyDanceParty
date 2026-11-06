@@ -18,8 +18,9 @@ INCLUDES    := include
 # Nintendo 3DS / ARM11 target.
 ARCH        := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
+# Include libctru and 3DS portlibs headers explicitly for the CI container.
 CFLAGS      := -g -Wall -O2 -mword-relocations -ffunction-sections $(ARCH)
-CFLAGS      += -D__3DS__
+CFLAGS      += -D__3DS__ -I$(DEVKITPRO)/libctru/include -I$(DEVKITPRO)/portlibs/3ds/include
 CXXFLAGS    := $(CFLAGS) -std=gnu++17 -fno-rtti -fno-exceptions
 ASFLAGS     := -g $(ARCH)
 LDFLAGS     := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
