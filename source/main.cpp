@@ -4,6 +4,13 @@
 #include <cstdio>
 #include <cstring>
 
+// Flags for copying the Citro3D RGBA8 render target to the 3DS RGB8 screen.
+#define DISPLAY_TRANSFER_FLAGS \
+    (GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(0) | GX_TRANSFER_RAW_COPY(0) | \
+     GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
+     GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) | \
+     GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
+
 namespace {
 constexpr u64 kPerfectWindowMs = 70;
 constexpr u64 kGoodWindowMs = 145;
