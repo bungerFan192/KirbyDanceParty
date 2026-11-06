@@ -283,7 +283,7 @@ void drawBottomScreen(const Beat* phrase, int currentBeat, int score,
     printf("\x1b[16;1HScore: %d    Combo: %d", score, combo);
     printf("\x1b[18;1HLast: %s", lastJudgement);
     printf("\x1b[20;1H%s", status);
-    printf("\x1b[23;1HD-Pad: dance    START: quit");
+    printf("\x1b[23;1H[ D-PAD ] DANCE     [ START ] QUIT");
 }
 
 void runPrototype() {
@@ -390,6 +390,7 @@ void runPrototype() {
     printf("\x1b[8;3HFinal score: %d", score);
     printf("\x1b[11;3HThanks for dancing!");
     printf("\x1b[15;1HPress A to return to HOME.");
+    printf("\x1b[20;1H[ A ] RETURN TO HOME");
     while (aptMainLoop()) {
         hidScanInput();
         if (hidKeysDown() & KEY_A) break;
