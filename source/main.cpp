@@ -56,6 +56,8 @@ const char* judgementName(u64 difference) {
 // this helper maps a landscape 400x240 coordinate to the framebuffer layout.
 // -----------------------------------------------------------------------------
 u8* topFramebuffer = nullptr;
+u16 framebufferWidth = 0;
+u16 framebufferHeight = 0;
 s16* toneBuffers[4] = {nullptr, nullptr, nullptr, nullptr};
 bool audioReady = false;
 int nextAudioChannel = 0;
@@ -65,9 +67,17 @@ struct Color {
 };
 
 void pixel(int x, int y, Color color) {
-    if (!topFramebuffer || x < 0 || x >= 400 || y < 0 || y >= 240) return;
-    const unsigned int offset = (static_cast<unsigned int>(y) * 400u +
-                                 static_cast<unsigned int>(x)) * 3u;
+    // The 3DS framebuffer is physically 240x400 and stored column-major.
+    // Our drawing helpers use landscape coordinates (400x240), so rotate
+    // the coordinate when calculating the byte offset.
+    if (!topFramebuffer || x < 0 || x >= 400 || y < 0 || y >= 240 ||
+        framebufferWidth < 240 || framebufferHeight < 400) return;
+
+    const unsigned int fbX = static_cast<unsigned int>(239 - y);
+    const unsigned int fbY = static_cast<unsigned int>(x);
+    const unsigned int offset =
+        (fbY * static_cast<unsigned int>(framebufferWidth) + fbX) * 3u;
+
     // GFX_BGR8_OES stores blue, green, red.
     topFramebuffer[offset + 0] = color.b;
     topFramebuffer[offset + 1] = color.g;
@@ -140,7 +150,9 @@ void drawRhythmStage(bool responsePhase, int beatIndex, float progress,
                      const Beat* phrase, const char* judgement) {
     u16 width = 0, height = 0;
     topFramebuffer = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, &width, &height);
-    if (!topFramebuffer) return;
+    framebufferWidth = width;
+    framebufferHeight = height;
+    if (!topFramebuffer || width < 240 || height < 400) return;
 
     const Color bg{66, 43, 112};
     const Color panel{91, 65, 145};
